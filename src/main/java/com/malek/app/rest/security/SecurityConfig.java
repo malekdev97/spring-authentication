@@ -25,28 +25,34 @@ public class SecurityConfig {
         this.userDetailsService = userDetailsService;
     }
 
+    /*
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .cors().and()
                 .csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers(request -> request.getMethod().equals("OPTIONS")).authenticated()
+                .requestMatchers(request -> request.getMethod().equals("OPTIONS")).permitAll()
+                // .antMatchers(HttpMethod.GET, "/api/**").hasAnyRole("USER", "ADMIN") this line is deprecated
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic();
+        return http.build();
+    }
+    */
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        http
+                .cors().and()
+                .csrf().disable()
+                .authorizeHttpRequests()
+                .requestMatchers("/api/auth/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic();
         return http.build();
     }
 
-/*
-@Bean
-public UserDetailsService users() {
-    return new InMemoryUserDetailsManager(
-            User.withUsername("user")
-                    .password("{noop}password")
-                    .roles("USER")
-                    .build());
-        }
- */
     @Bean
     public UserDetailsService users() {
         // Create a UserDetails object for admin
