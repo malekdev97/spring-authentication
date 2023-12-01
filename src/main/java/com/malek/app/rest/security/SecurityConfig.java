@@ -53,6 +53,7 @@ public class SecurityConfig {
         return http.build();
     }
 
+    /*
     @Bean
     public UserDetailsService users() {
         // Create a UserDetails object for admin
@@ -63,6 +64,7 @@ public class SecurityConfig {
         // Return a UserDetailsService
         return new InMemoryUserDetailsManager(admin, user);
     }
+    */
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
