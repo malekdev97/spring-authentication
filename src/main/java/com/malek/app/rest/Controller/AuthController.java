@@ -66,7 +66,12 @@ public class AuthController {
         }
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
-
+        /**
+         * Role
+         * Email
+         * Name
+         * TOken
+         */
         return ResponseEntity.ok("User logged in successfully!");
     }
 }
