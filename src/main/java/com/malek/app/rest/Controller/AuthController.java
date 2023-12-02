@@ -1,11 +1,14 @@
 package com.malek.app.rest.Controller;
 
+import com.malek.app.rest.Dto.AuthResponseDto;
 import com.malek.app.rest.Dto.LoginDto;
 import com.malek.app.rest.Dto.RegisterDto;
 import com.malek.app.rest.Model.UserEntity;
 import com.malek.app.rest.Repository.RoleRepository;
 import com.malek.app.rest.Repository.UserRepository;
+import com.malek.app.rest.security.JwtGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,13 +31,15 @@ public class AuthController {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
+    private JwtGenerator jwtGenerator;
 
     @Autowired
-    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public AuthController(AuthenticationManager authenticationManager, UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, JwtGenerator jwtGenerator) {
         this.authenticationManager = authenticationManager;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtGenerator = jwtGenerator;
     }
 
     @PostMapping("register")
@@ -57,21 +62,19 @@ public class AuthController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginDto loginDto) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
 
-        if(authentication == null) {
-            return ResponseEntity.badRequest().body("Error: Authentication failed!");
-        }
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        String token = jwtGenerator.generateToken(authentication);
         /**
          * Role
          * Email
          * Name
          * TOken
          */
-        return ResponseEntity.ok("User logged in successfully!");
+        return new ResponseEntity(new AuthResponseDto(token), HttpStatus.OK);
     }
 }
