@@ -17,19 +17,24 @@ import java.io.IOException;
 /* This class is like middleware, I think we gonna use it in Filter Chain */
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
+    @Autowired
     private JwtGenerator tokenGenerator;
 
+    @Autowired
     private CustomUserDetailsService customUserDetailsService;
 
+    @Autowired
     private JwtGenerator jwtGenerator;
 
+    // This is the constructor that Spring uses to create an instance of this class
+    /*
     @Autowired
     public JwtAuthenticationFilter(JwtGenerator tokenGenerator, CustomUserDetailsService customUserDetailsService, JwtGenerator jwtGenerator) {
         this.tokenGenerator = tokenGenerator;
         this.customUserDetailsService = customUserDetailsService;
         this.jwtGenerator = jwtGenerator;
     }
-
+     */
     public JwtAuthenticationFilter() {
     }
 
