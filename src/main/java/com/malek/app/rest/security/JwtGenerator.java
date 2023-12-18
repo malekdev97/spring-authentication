@@ -4,6 +4,7 @@ package com.malek.app.rest.security;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
@@ -13,7 +14,7 @@ import java.util.Date;
 @Service
 public class JwtGenerator {
 
-    public String generateToken(Authentication authentication) {
+    public String generateToken(@NotNull Authentication authentication) {
         String username = authentication.getName();
         Date currentDate = new Date();
         Date expireDate = new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
@@ -23,7 +24,7 @@ public class JwtGenerator {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(expireDate)
-                .signWith(SignatureAlgorithm.HS256, SecurityConstants.JWT_SECRET)
+                .signWith(SignatureAlgorithm.HS256 , SecurityConstants.JWT_SECRET)
                 .compact();
 
         return token;
