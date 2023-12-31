@@ -76,6 +76,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+<<<<<<< HEAD
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-api -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
@@ -89,6 +90,9 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
+=======
+	</dependencies>
+>>>>>>> 46fa39f76f4dfeac754130f9b0b52c5b4b4999f4
 
 	<build>
 		<plugins>
