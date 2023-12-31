@@ -10,6 +10,6 @@ public class AuthResponseDto {
 
     public AuthResponseDto(String accessToken) {
         this.accessToken = accessToken;
-        //this.tokenType = "Bearer";
+        this.tokenType = "Bearer";
     }
 }
