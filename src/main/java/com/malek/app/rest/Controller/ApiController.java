@@ -23,8 +23,10 @@ public class ApiController {
         return userRepo.findAll();
     }
 
-    @GetMapping("/user/{id}")
-    public User getUser(@PathVariable long id) {
+    // if the key which is in our case is id and the passed properity is equal true
+    // then no need to declare it
+    @GetMapping("/user/{key}")
+    public User getUser(@PathVariable("key") long id) {
         return userRepo.findById(id).get();
     }
 

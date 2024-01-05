@@ -16,6 +16,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * UserDetailsService is an interface used to retrieve user-related data.
+ * It helps in retrieving, creating, update, deleting user details from the DB.
+ */
 @Service
 public class CustomUserDetailsService  implements UserDetailsService {
 
