@@ -34,8 +34,7 @@ public class StudentController {
 
     @PostMapping("/save")
     public Student storeStudent(@RequestBody Student student) {
-        System.out.println(student.getName());
-        //studentRepository.save(student);
+        studentRepository.save(student);
         return student;
     }
     @PutMapping(value = "/update/{id}")
