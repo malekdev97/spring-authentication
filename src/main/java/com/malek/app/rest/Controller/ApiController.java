@@ -29,7 +29,7 @@ public class ApiController {
     }
 
     @PostMapping("/save")
-    public String saveUser(User user) {
+    public String saveUser(@RequestBody User user) {
         userRepo.save(user);
         return "User saved";
     }
