@@ -1,10 +1,10 @@
-package com.malek.app.rest;
+package com.spring.implementation;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestApiApplicationTests {
+class ResetPasswordApplicationTests {
 
 	@Test
 	void contextLoads() {

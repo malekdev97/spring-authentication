@@ -1,13 +1,13 @@
-package com.malek.app.rest;
+package com.spring.implementation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class RestApiApplication {
+public class ResetPasswordApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(RestApiApplication.class, args);
+		SpringApplication.run(ResetPasswordApplication.class, args);
 	}
 
 }
