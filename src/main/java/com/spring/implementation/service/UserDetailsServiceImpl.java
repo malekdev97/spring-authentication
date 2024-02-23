@@ -56,24 +56,17 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 
 	public String sendEmail(User user) {
-		try {
-			String resetLink = generateResetToken(user);
+		
+		String token = generateResetToken(user);
+		SimpleMailMessage mailMessage = new SimpleMailMessage();
+		mailMessage.setTo(user.getEmail());
+		mailMessage.setSubject("Reset Password");
+		mailMessage.setText("To reset your password, click the link below:\n" + token);
+		javaMailSender.send(mailMessage);
+		return "success";
 
-			SimpleMailMessage msg = new SimpleMailMessage();
-			msg.setFrom("");// input the senders email ID
-			msg.setTo(user.getEmail());
 
-			msg.setSubject("Welcome To My Channel");
-			msg.setText("Hello \n\n" + "Please click on this link to Reset your Password :" + resetLink + ". \n\n"
-					+ "Regards \n" + "ABC");
-
-			javaMailSender.send(msg);
-
-			return "success";
-		} catch (Exception e) {
-			e.printStackTrace();
-			return "error";
-		}
+		
 
 	}
 

@@ -15,6 +15,7 @@ import com.spring.implementation.model.PasswordResetToken;
 import com.spring.implementation.model.User;
 import com.spring.implementation.repository.TokenRepository;
 import com.spring.implementation.repository.UserRepository;
+import com.spring.implementation.service.EmailService;
 import com.spring.implementation.service.UserDetailsServiceImpl;
 
 @Controller
@@ -22,6 +23,9 @@ public class RegisterLoginController {
 
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
+
+	@Autowired
+	EmailService emailService;
 
 	@Autowired
 	UserRepository userRepository;
@@ -67,7 +71,8 @@ public class RegisterLoginController {
 	@PostMapping("/forgotPassword")
 	public String forgotPassordProcess(@ModelAttribute UserDTO userDTO) {
 		String output = "";
-		User user = userRepository.findByEmail(userDTO.getEmail());
+		User user = userRepository.findByEmail(userDTO.getEmail()); // check if user exists
+		System.out.println(user.getEmail());
 		if (user != null) {
 			output = userDetailsService.sendEmail(user);
 		}
