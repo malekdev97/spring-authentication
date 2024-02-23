@@ -64,7 +64,7 @@ public class SpringSecurity {
 					.anyRequest().permitAll()
 					.and()
 					.formLogin()
-					.loginPage("/login").defaultSuccessUrl("/userDashboard")
+					.loginPage("/login").defaultSuccessUrl("/dashboard")
 					.permitAll()
 					.and()
 					.logout()

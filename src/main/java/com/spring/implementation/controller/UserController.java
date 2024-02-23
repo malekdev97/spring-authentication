@@ -127,37 +127,37 @@ public class UserController {
 		mailSender.send(message);
 	}
 
-	@GetMapping("/reset-password/{token}")
+	@GetMapping("/reset-password")
 	public String showResetPasswordForm(@Param(value = "token") String token, Model model) {
-		User user = userService.getByResetPasswordToken(token);
-
-		model.addAttribute("token", token);
-
-		if(user == null) {
-			model.addAttribute("message", "Invalid Token");
-			return "resetPassword";
-		}
-
-		return "resetPassword";
+    User user = userService.getByResetPasswordToken(token);
+    model.addAttribute("token", token);
+     
+    if (user == null) {
+        model.addAttribute("message", "Invalid Token");
+        return "message";
+    }
+     
+    return "resetPassword";
 	}
 
 	@PostMapping("/reset-password")
 	public String processResetPassword(HttpServletRequest request, Model model) {
 		String token = request.getParameter("token");
 		String password = request.getParameter("password");
-
+		
 		User user = userService.getByResetPasswordToken(token);
 		model.addAttribute("title", "Reset your password");
-
-		if(user == null) {
+		
+		if (user == null) {
 			model.addAttribute("message", "Invalid Token");
-			return "message";
-		} else {
+			return "resetPassword";
+		} else {           
 			userService.updatePassword(user, password);
+			
 			model.addAttribute("message", "You have successfully changed your password.");
 		}
-
-		return "redirect:/reset-password?token=" + token;
+		
+		return "redirect:/login";
 	}
 
 }
