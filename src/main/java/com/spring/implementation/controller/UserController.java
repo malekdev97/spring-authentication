@@ -58,12 +58,12 @@ public class UserController {
 
 	@GetMapping("/userDashboard")
 	public String showUserDashboardForm(Model model) {
-		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal(); // Get the logged in user
 
-		if (principal instanceof UserDetails) {
-			String username = ((UserDetails)principal).getUsername();
-			User user = userRepository.findByEmail(username);
-			model.addAttribute("user", user);
+		if (principal instanceof UserDetails) { // If the user is logged in
+			String username = ((UserDetails)principal).getUsername(); // Get the username of the logged in user
+			User user = userRepository.findByEmail(username); // Get the user details from the database
+			model.addAttribute("user", user); // Add the user details to the model
 		}
 
 		return "userDashboard";
