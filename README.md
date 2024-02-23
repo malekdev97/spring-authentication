@@ -1,2 +1,10 @@
-# ForgotPassword
- In this project we will be creating a application to cater Forgot Password functionality where a unique link will be sent to the user for changing the password on the users email.
+# Spring Boot
+Implementing the three layers (API, Service, Repository) and the authentication and forgot password.
+
+## Frontend
+Thymeleaf
+
+## Note
+Feel free to use this project and if you have any question, raise an issue on this repository.
+
+Happy coding!
