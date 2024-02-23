@@ -1,12 +1,9 @@
 package com.spring.implementation.model;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
@@ -19,8 +16,7 @@ public class User {
 	private String name;
 	private String email;
 	private String password;
-	@OneToOne(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private PasswordResetToken passwordResetToken;
+	
 
 	public int getId() {
 		return id;
@@ -52,14 +48,6 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public PasswordResetToken getPasswordResetToken() {
-		return passwordResetToken;
-	}
-
-	public void setPasswordResetToken(PasswordResetToken passwordResetToken) {
-		this.passwordResetToken = passwordResetToken;
 	}
 	
 

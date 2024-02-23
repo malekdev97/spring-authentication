@@ -36,9 +36,8 @@
 <body>
     <div class="container">
         <h1>Welcome to the Dashboard</h1>
-        <div class="welcome-message">Hello, User!</div>
         <div class="dashboard-content">
-            This is your dashboard. You can view and manage your information here.
+            <div class="welcome-message">Hello, <span th:text="${user.name}"></span>!</div>
         </div>
         <a href="/logout" class="logout-button">Logout</a>
     </div>

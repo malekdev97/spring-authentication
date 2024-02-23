@@ -1,6 +1,8 @@
 package com.spring.implementation.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,15 +13,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import com.spring.implementation.DTO.UserDTO;
 import com.spring.implementation.DTO.UserLoginDTO;
-import com.spring.implementation.model.PasswordResetToken;
 import com.spring.implementation.model.User;
-import com.spring.implementation.repository.TokenRepository;
 import com.spring.implementation.repository.UserRepository;
 import com.spring.implementation.service.EmailService;
 import com.spring.implementation.service.UserDetailsServiceImpl;
 
 @Controller
-public class RegisterLoginController {
+public class UserController {
 
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
@@ -29,8 +29,6 @@ public class RegisterLoginController {
 
 	@Autowired
 	UserRepository userRepository;
-	@Autowired
-	TokenRepository tokenRepository;
 	
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
@@ -59,47 +57,16 @@ public class RegisterLoginController {
 	}
 
 	@GetMapping("/userDashboard")
-	public String showUserDashboardForm() {
+	public String showUserDashboardForm(Model model) {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+		if (principal instanceof UserDetails) {
+			String username = ((UserDetails)principal).getUsername();
+			User user = userRepository.findByEmail(username);
+			model.addAttribute("user", user);
+		}
+
 		return "userDashboard";
-	}
-
-	@GetMapping("/forgotPassword")
-	public String forgotPassword() {
-		return "forgotPassword";
-	}
-
-	@PostMapping("/forgotPassword")
-	public String forgotPassordProcess(@ModelAttribute UserDTO userDTO) {
-		String output = "";
-		User user = userRepository.findByEmail(userDTO.getEmail()); // check if user exists
-		System.out.println(user.getEmail());
-		if (user != null) {
-			output = userDetailsService.sendEmail(user);
-		}
-		if (output.equals("success")) {
-			return "redirect:/forgotPassword?success";
-		}
-		return "redirect:/login?error";
-	}
-
-	@GetMapping("/resetPassword/{token}")
-	public String resetPasswordForm(@PathVariable String token, Model model) {
-		PasswordResetToken reset = tokenRepository.findByToken(token);
-		if (reset != null && userDetailsService.hasExipred(reset.getExpiryDateTime())) {
-			model.addAttribute("email", reset.getUser().getEmail());
-			return "resetPassword";
-		}
-		return "redirect:/forgotPassword?error";
-	}
-	
-	@PostMapping("/resetPassword")
-	public String passwordResetProcess(@ModelAttribute UserDTO userDTO) {
-		User user = userRepository.findByEmail(userDTO.getEmail());
-		if(user != null) {
-			user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
-			userRepository.save(user);
-		}
-		return "redirect:/login";
 	}
 
 }

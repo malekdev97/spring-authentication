@@ -15,9 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.spring.implementation.DTO.UserDTO;
-import com.spring.implementation.model.PasswordResetToken;
 import com.spring.implementation.model.User;
-import com.spring.implementation.repository.TokenRepository;
 import com.spring.implementation.repository.UserRepository;
 
 @Service
@@ -31,9 +29,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 	
 	@Autowired
 	JavaMailSender javaMailSender;
-	
-	@Autowired
-	TokenRepository tokenRepository;
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -57,40 +52,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	public String sendEmail(User user) {
 		
-		String token = generateResetToken(user);
 		SimpleMailMessage mailMessage = new SimpleMailMessage();
 		mailMessage.setTo(user.getEmail());
 		mailMessage.setSubject("Reset Password");
-		mailMessage.setText("To reset your password, click the link below:\n" + token);
+		mailMessage.setText("To reset your password, click the link below:\n" + user.toString());
 		javaMailSender.send(mailMessage);
 		return "success";
 
-
-		
-
 	}
 
-
-	public String generateResetToken(User user) {
-		UUID uuid = UUID.randomUUID();
-		LocalDateTime currentDateTime = LocalDateTime.now();
-		LocalDateTime expiryDateTime = currentDateTime.plusMinutes(30);
-		PasswordResetToken resetToken = new PasswordResetToken();
-		resetToken.setUser(user);
-		resetToken.setToken(uuid.toString());
-		resetToken.setExpiryDateTime(expiryDateTime);
-		resetToken.setUser(user);
-		PasswordResetToken token = tokenRepository.save(resetToken);
-		if (token != null) {
-			String endpointUrl = "http://localhost:8080/resetPassword";
-			return endpointUrl + "/" + resetToken.getToken();
-		}
-		return "";
-	}
-
-
-	public boolean hasExipred(LocalDateTime expiryDateTime) {
-		LocalDateTime currentDateTime = LocalDateTime.now();
-		return expiryDateTime.isAfter(currentDateTime);
-	}
 }
