@@ -9,12 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class RestApiApplication {
 
 	public static void main(String[] args) {
-		// SpringApplication.run(RestApiApplication.class, args);
-		ConfigurableApplicationContext ac = SpringApplication.run(RestApiApplication.class, args);
-		
-		for(String name : ac.getBeanDefinitionNames()) {
-			System.out.println(name);
-		}
+		SpringApplication.run(RestApiApplication.class, args);
 		
 	}
 

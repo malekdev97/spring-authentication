@@ -1,17 +1,17 @@
 package com.malek.app.rest.Controller;
 
 import com.malek.app.rest.Model.User;
-import com.malek.app.rest.Repository.UserRepo;
+import com.malek.app.rest.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-public class ApiController {
+public class UserController {
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepo;
 
     @GetMapping("/")
     public String hello() {

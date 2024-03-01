@@ -1,8 +1,9 @@
 package com.malek.app.rest.Controller;
 
 import com.malek.app.rest.Model.Student;
-import com.malek.app.rest.Repository.IStudentRepository;
+import com.malek.app.rest.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,13 +13,14 @@ import java.util.List;
 public class StudentController {
 
     @Autowired
-    private IStudentRepository studentRepository;
+    private StudentRepository studentRepository;
 
     @GetMapping("/")
-    public String hello() {
+    public ResponseEntity hello() {
 
-        return "Hello World";
+        return ResponseEntity.ok("Students API");
     }
+    
     @GetMapping("/getall")
     public List<Student> getAllStudent() {
         return studentRepository.findAll();
