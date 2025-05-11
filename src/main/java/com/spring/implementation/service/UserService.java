@@ -50,4 +50,8 @@ public class UserService {
         user.setResetPasswordToken(null);
         userRepository.save(user);
     }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
 }
